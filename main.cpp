@@ -96,9 +96,9 @@ public:
         }
     }
 
-    void removeCard(Card inputCard){
-        handList.remove(inputCard);
-    }
+    //void removeCard(Card inputCard){
+    //    handList.remove(inputCard);
+   // }
 
     void print(){
         for (auto v : handList){
@@ -117,10 +117,10 @@ class cpuPlayer : public Player{
 
 Card convertInput(string Card){
     //convert user input string to a Card type
-    class Card test;
+    class Card test;/*
     test.num = stoi(Card);
     test.color = Card[1];
-    cout << "converted: " << test.num << test.color << endl;
+    cout << "converted: " << test.num << test.color << endl;*/
     return test;
 }
 
@@ -141,9 +141,9 @@ int main() {
     cout << "Your Turn: ";
     string  inputCard;
     cin >> inputCard;
-    Card cardtoRemove = convertInput(inputCard);
-    cout << "cardtoRemove " << cardtoRemove.num << cardtoRemove.color << endl;
-    p1.removeCard(cardtoRemove);
+    //Card cardtoRemove = convertInput(inputCard);
+    //cout << "cardtoRemove " << cardtoRemove.num << cardtoRemove.color << endl;
+    //p1.removeCard(cardtoRemove);
     //p1.print();
     return 0;
 }
