@@ -101,6 +101,11 @@ public:
         }
     }
 
+    void pickupCard(){
+        int randNum = rand()%80;
+        Deck dealdeck;
+        handList.push_back(dealdeck.cardDeck[randNum]);
+    }
     void removeCard(const Card inputCard){
         list<Card>::iterator it;
         for(it = this->handList.begin(); it != this->handList.end();it++){
@@ -136,6 +141,7 @@ public:
         return legal;
     }
     void print(){
+        cout << "Player " << num << "'s Hand: ";
         for (auto v : handList){
             std::cout << v.num << v.color << ' ';
         }
@@ -155,27 +161,26 @@ Card convertInput(string Card){
     class Card test;
     test.num = stoi(Card);
     test.color = Card[1];
-    cout << "converted: " << test.num << test.color << endl;
     return test;
 }
 
-int switchPlayer(int numplayers, Player pnow){//skip and reverse special cards will be implemented here
+int switchPlayer(int numplayers, int pnowNum){//skip and reverse special cards will be implemented here
     //Player nextPlayer;
     int next;
     if(numplayers==2){
-        if(pnow.num == 1) next = 2;
-        else if (pnow.num = 2) next = 1;
+        if(pnowNum == 1) next = 2;
+        else if (pnowNum == 2) next = 1;
     }
     else if(numplayers==4){
-        if(pnow.num == 1)next = 2;
-        else if (pnow.num == 2) next = 3;
-        else if (pnow.num == 3) next = 4;
-        else if (pnow.num == 4) next = 1;
+        if(pnowNum == 1)next = 2;
+        else if (pnowNum == 2) next = 3;
+        else if (pnowNum == 3) next = 4;
+        else if (pnowNum == 4) next = 1;
     }
     else if (numplayers == 3){
-        if(pnow.num == 1)next = 2;
-        else if (pnow.num == 2)next = 3;
-        else if (pnow.num == 3) next = 1;
+        if(pnowNum == 1)next = 2;
+        else if (pnowNum == 2)next = 3;
+        else if (pnowNum == 3) next = 1;
     }
 
     return next;
@@ -183,33 +188,53 @@ int switchPlayer(int numplayers, Player pnow){//skip and reverse special cards w
 
 int main() {
     Deck fullDeck;
-    fullDeck.print();
     humPlayer p1;
     p1.num = 1;
-    p1.print();
     humPlayer p2;
     p2.num = 2;
-    p2.print();
-
+    int nextNum = 0;
     int numPlayers = 2;
+    humPlayer pNow;
+    pNow = p1;
 
+    while(1){
+        p2.num = 2;
+        p1.num = 1;
     int randNum = rand()%80;
     Card centerCard = fullDeck.cardDeck[randNum];
     cout << "Card to Play: " << centerCard.num << centerCard.color << endl ;
-    cout << "Your Turn, Play a Card: ";
-    string  inputCard;
+    pNow.print();
+    cout << "Your Turn, Play or Pickup a Card: ";
+    string inputCard;
     cin >> inputCard;
-    Card cardtoRemove = convertInput(inputCard);
-    bool legal = p1.isLegal(cardtoRemove,centerCard);
-    if(legal){
-        p1.removeCard(cardtoRemove);
+    if(inputCard == "pickup"){
+        pNow.pickupCard();
     }
-    else{
-        cout <<"ILLEGAL MOVE, DRAW OR PLAY ANOTHER CARD" <<endl;
+    else {
+        Card cardtoRemove = convertInput(inputCard);
+        bool legal = pNow.isLegal(cardtoRemove, centerCard);
+        if (legal) {
+            pNow.removeCard(cardtoRemove);
+        } else {
+            cout << "ILLEGAL MOVE, DRAW OR PLAY ANOTHER CARD" << endl;
+        }
     }
-    int nextNum = switchPlayer(numPlayers, p1);
-    p1.print();
+    if(pNow.num == 1){
+        p1 = pNow;
+        p1.num = 1;
+    }
+    else if (pNow.num == 2){
+        p2 = pNow;
+        p2.num = 2;
+    }
 
+    nextNum = switchPlayer(numPlayers, pNow.num);
+    if(nextNum == 2) pNow = p2;
+    else if (nextNum == 1)pNow = p1;
+        if(pNow.handList.empty()== true){
+            break;
+        }
+    }
 
     return 0;
 }
