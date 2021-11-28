@@ -16,6 +16,7 @@ class Card {
 public:
 	int num;
 	string color;
+	string wColor;
 	Card() {
 		num = 10;
 		color = "default";
@@ -51,6 +52,18 @@ public:
 			Card card;
 			card.num = n / 2;
 			card.color = "y";
+			cardDeck.push_back(card);
+		}
+		for (int n = 0; n < 5; n++) {
+			Card card;
+			card.num = 0;
+			card.color = w;
+			cardDeck.push_back(card);
+		}
+		for (int n = 0; n < 5; n++) {
+			Card card;
+			card.num = 4;
+			card.color = w;
 			cardDeck.push_back(card);
 		}
 		random_shuffle(cardDeck.begin(), cardDeck.end());
@@ -129,6 +142,16 @@ public:
 		//if card matches centerCard
 		bool legal = false;
 		list<Card>::iterator it;
+		if (playerCard.color = 'w') {
+			//wild case
+			legal = true;
+			return legal;
+			if (playerCard.num = 4) {
+				//Draw Four Case
+				legal = true;
+				return legal;
+			}
+		}
 		for (it = this->handList.begin(); it != this->handList.end(); it++) {
 			if (it->num == playerCard.num && it->color == playerCard.color) {
 				legal = true;
@@ -153,7 +176,7 @@ public:
 		bool legal = false;
 		list<Card>::iterator it;
 		for (it = this->handList.begin(); it != this->handList.end(); it++) {
-			if (it->num == centerCard.num || it->color == centerCard.color) {
+			if (it->num == centerCard.num || it->color == centerCard.color||it->color == 'w') {
 				legal = true;
 				return true;
 				break;
@@ -226,7 +249,7 @@ int main() {
 
 	int randNum = rand() % 80;
 	Card centerCard = fullDeck.cardDeck[randNum];
-	cout << "Welcome to UNO!" << endl << "You may type end at any point as your card to end the game." << endl;
+	cout << "Welcome to UN!" << endl << "You may type end at any point as your card to end the game." << endl;
 	string inputCard;
 	//begin the main while loop
 	while (!end) {
@@ -263,7 +286,23 @@ int main() {
 				bool legal = pNow.isLegal(cardtoRemove, centerCard);
 				if (legal) {//if the card is a legal card to be played
 					pNow.removeCard(cardtoRemove);//remove the card
-					centerCard = cardtoRemove;//update the ceneter card
+					centerCard = cardtoRemove;//update the center card
+					//WILD CASE
+					if (cardtoRemove.color == 'w') {
+						string wildColor;
+						while (wildColor != 'r' || wildColor != 'b' || wildColor != 'g' || wildColor != 'y') {
+							cout << "Color of wild (r, b, y, g): ";
+							cin >> wildColor;
+							cout << endl;
+							if (wildColor != 'r' || wildColor != 'b' || wildColor != 'g' || wildColor != 'y')
+								cout << "Incorrect Input" << endl;
+						}
+						centerCard.wColor = wildColor
+						if (cardtoRemove.num == 4) {//DRAW FOUR CASE
+
+						}
+
+					}
 					//we don't need to prompt this user for more info
 					promptAgain = false;
 				}
