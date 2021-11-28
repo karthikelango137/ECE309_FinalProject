@@ -11,6 +11,9 @@
 #include <stdio.h>
 #include "string.h"
 #include "time.h"
+#include "windows.h"
+#include <cstdio>
+#include <string>
 using namespace std;
 
 class Card {
@@ -141,13 +144,7 @@ public:
         }
         random_shuffle(cardDeck.begin(), cardDeck.end());
     }
-    /*
-        void shuffle(){
-           for(int i = 0; i < rand(); i++){
-               random_shuffle(cardDeck.begin(),cardDeck.end());
-           }
-        }//function to shuffle deck and we take first 7 or top to put in a hand instead of randomizing
-    */
+
     void print() {
         for (int i = 0; i < cardDeck.size(); i++) {
             cout << cardDeck[i].num << cardDeck[i].color << ' ';
@@ -155,11 +152,7 @@ public:
         cout << endl;
     }//for testing purposes only
 };
-/*
-class hand{
-	list<Card> handList;
-};
-*/
+
 class Player {
 public:
     int num;
@@ -209,6 +202,7 @@ public:
             //cout << "iterator: " << it->num << it->color << ' ';
         }
         cout << endl;
+        //this->handList.sort();
     }
 
     bool isLegal(Card playerCard, Card centerCard) {
@@ -233,14 +227,14 @@ public:
             }
             //cout << "iterator: " << it->num << it->color << ' ';
         }
-        if(playerCard.color == "+r" || playerCard.color == "Sr") playerCard.color = "r";
-        else if(playerCard.color == "+b" || playerCard.color == "Sb") playerCard.color = "b";
-        else if(playerCard.color == "+g" || playerCard.color == "Sg") playerCard.color = "g";
-        else if(playerCard.color == "+y" || playerCard.color == "Sy") playerCard.color = "y";
-        if(centerCard.color == "+r" || centerCard.color == "Sr")centerCard.color = "r";
-        else if(centerCard.color == "+b" || centerCard.color == "Sb")centerCard.color = "b";
-        else if(centerCard.color == "+y" || centerCard.color == "Sy")centerCard.color = "y";
-        else if(centerCard.color == "+g" || centerCard.color == "Sg")centerCard.color = "g";
+        if(playerCard.color == "+r" || playerCard.color == "Sr" || playerCard.color == "Rr") playerCard.color = "r";
+        else if(playerCard.color == "+b" || playerCard.color == "Sb" || playerCard.color == "Rb") playerCard.color = "b";
+        else if(playerCard.color == "+g" || playerCard.color == "Sg" || playerCard.color == "Rg") playerCard.color = "g";
+        else if(playerCard.color == "+y" || playerCard.color == "Sy" || playerCard.color == "Ry") playerCard.color = "y";
+        if(centerCard.color == "+r" || centerCard.color == "Sr" || centerCard.color == "Rr")centerCard.color = "r";
+        else if(centerCard.color == "+b" || centerCard.color == "Sb" || centerCard.color == "Rb")centerCard.color = "b";
+        else if(centerCard.color == "+y" || centerCard.color == "Sy" || centerCard.color == "Ry")centerCard.color = "y";
+        else if(centerCard.color == "+g" || centerCard.color == "Sg" || centerCard.color == "Rg")centerCard.color = "g";
         if (legal == true) {
             if (playerCard.num == centerCard.num || playerCard.color == centerCard.color) {
                 legal = true;
@@ -274,7 +268,31 @@ public:
     void print() {
         cout << "Player " << num << "'s Hand: ";
         for (auto v : handList) {
-            std::cout << v.num << v.color << ' ';
+            if(v.color == "r" || v.color[1] == 'r'){
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole,12);
+                std::cout << v.num << v.color << ' ';
+            }
+            else if (v.color == "b" || v.color[1] == 'b'){
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole,9);
+                std::cout << v.num << v.color << ' ';
+            }
+            else if (v.color == "g"|| v.color[1] == 'g'){
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole,10);
+                std::cout << v.num << v.color << ' ';
+            }
+            else if (v.color == "y"|| v.color[1] == 'y'){
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole,14);
+                std::cout << v.num << v.color << ' ';
+            }
+            else {
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole,15);
+                std::cout << v.num << v.color << ' ';
+            }
         }
         cout << endl;
     }//for testing purposes only
@@ -290,7 +308,7 @@ class cpuPlayer : public Player {
 Card convertInput(string Card) {
     //convert user input string to a Card type
     class Card test;
-    if(Card[1] == '+' || Card[1] == 'S'){
+    if(Card[1] == '+' || Card[1] == 'S' || Card[1] == 'R'){
         test.num = stoi(Card);
         test.color = Card.substr(1,2);
     }
@@ -324,6 +342,27 @@ int switchPlayer(int numplayers, int pnowNum) {//skip and reverse special cards 
     return next;
 }
 
+int RSwitchPlayer(int numplayers, int pnowNum){
+    int next;
+    if (numplayers == 2) {
+        if (pnowNum == 1) next = 2;
+        else if (pnowNum == 2) next = 1;
+    }
+    else if (numplayers == 4) {
+        if (pnowNum == 1)next = 4;
+        else if (pnowNum == 2) next = 1;
+        else if (pnowNum == 3) next = 2;
+        else if (pnowNum == 4) next = 3;
+    }
+    else if (numplayers == 3) {
+        if (pnowNum == 1)next = 3;
+        else if (pnowNum == 2)next = 1;
+        else if (pnowNum == 3) next = 2;
+    }
+
+    return next;
+}
+
 int main() {
     srand(time(NULL));
     Deck fullDeck;
@@ -340,19 +379,49 @@ int main() {
     humPlayer pNow;
     pNow = p1;
     bool end = false;
-
+    bool reverse = false;
     int randNum = rand() % 80;
     Card centerCard = fullDeck.cardDeck[randNum];
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole,15);
     cout << "Welcome to UNO!" << endl << "You may type end at any point as your card to end the game." << endl;
     string inputCard;
     //begin the main while loop
     while (!end) {
-
+        //pNow.handList.sort();
         //prompts for user
         bool promptAgain = true;
         while (promptAgain) {
-            cout << "Card to Play: " << centerCard.num << centerCard.color << endl;
+            cout << "Card to Play: " ;
+            if(centerCard.color == "r" || centerCard.color[1] == 'r'){
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole,12);
+                std::cout << centerCard.num << centerCard.color << ' ';
+            }
+            else if (centerCard.color == "b" || centerCard.color[1] == 'b'){
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole,9);
+                std::cout << centerCard.num << centerCard.color << ' ';
+            }
+            else if (centerCard.color == "g"|| centerCard.color[1] == 'g'){
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole,10);
+                std::cout << centerCard.num << centerCard.color << ' ';
+            }
+            else if (centerCard.color == "y"|| centerCard.color[1] == 'y'){
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole,14);
+                std::cout << centerCard.num << centerCard.color << ' ';
+            }
+            else {
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole,15);
+                std::cout << centerCard.num << centerCard.color << ' ';
+            }
+            cout << endl;
+            SetConsoleTextAttribute(hConsole,15);
             pNow.print();
+            SetConsoleTextAttribute(hConsole,15);
             if (pNow.anyLegalCard(centerCard))
                 cout << "Your Turn, Play or Pickup a Card: ";
             else
@@ -374,6 +443,20 @@ int main() {
                 break;
 
                 //else assume that it's a card
+            }
+            else if (inputCard[1] == 'R'){
+                Card cardtoRemove = convertInput(inputCard);
+                bool legal = pNow.isLegal(cardtoRemove,centerCard);
+                if(legal){
+                    cout << "Order is Reversed" << endl << endl;
+                    if(reverse == false) reverse = true;
+                    else reverse = false;
+                    promptAgain = false;
+                }
+                else{
+                    cout << "ILLEGAL MOVE, DRAW OR PLAY ANOTHER CARD" << endl;
+                    promptAgain = true;
+                }
             }
             else if (inputCard[1] == 'S'){
                 Card cardtoRemove = convertInput(inputCard);
@@ -448,7 +531,7 @@ int main() {
                     else if (nextNum == 4)
                         pNow = p4;
 
-                    cout << "Player " << pNow.num << " draw's 2" << endl;
+                    cout << "Player " << pNow.num << " draw's 2";
 
                     pNow.pickupCard();
                     pNow.pickupCard();
@@ -517,7 +600,9 @@ int main() {
         }
 
         //switch players for while loop
-        nextNum = switchPlayer(numPlayers, pNow.num);
+        if(reverse==false) nextNum = switchPlayer(numPlayers, pNow.num);
+        else nextNum = RSwitchPlayer(numPlayers,pNow.num);
+
         if (nextNum == 1)
             pNow = p1;
         else if (nextNum == 2)
