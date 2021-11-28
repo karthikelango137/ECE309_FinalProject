@@ -91,6 +91,54 @@ public:
             card.color = "+b";
             cardDeck.push_back(card);
         }
+        for(int i = 0; i < 2; i++){
+            Card card;
+            card.num = 0;
+            card.color = "Sr";
+            cardDeck.push_back(card);
+        }
+        for(int i = 0; i < 2; i++){
+            Card card;
+            card.num = 0;
+            card.color = "Sb";
+            cardDeck.push_back(card);
+        }
+        for(int i = 0; i < 2; i++){
+            Card card;
+            card.num = 0;
+            card.color = "Sg";
+            cardDeck.push_back(card);
+        }
+        for(int i = 0; i < 2; i++){
+            Card card;
+            card.num = 0;
+            card.color = "Sy";
+            cardDeck.push_back(card);
+        }
+        for(int i = 0; i < 2; i++){
+            Card card;
+            card.num = 0;
+            card.color = "Rr";
+            cardDeck.push_back(card);
+        }
+        for(int i = 0; i < 2; i++){
+            Card card;
+            card.num = 0;
+            card.color = "Rb";
+            cardDeck.push_back(card);
+        }
+        for(int i = 0; i < 2; i++){
+            Card card;
+            card.num = 0;
+            card.color = "Rg";
+            cardDeck.push_back(card);
+        }
+        for(int i = 0; i < 2; i++){
+            Card card;
+            card.num = 0;
+            card.color = "Ry";
+            cardDeck.push_back(card);
+        }
         random_shuffle(cardDeck.begin(), cardDeck.end());
     }
     /*
@@ -185,14 +233,14 @@ public:
             }
             //cout << "iterator: " << it->num << it->color << ' ';
         }
-        if(playerCard.color == "+r") playerCard.color = "r";
-        else if(playerCard.color == "+b") playerCard.color = "b";
-        else if(playerCard.color == "+g") playerCard.color = "g";
-        else if(playerCard.color == "+y") playerCard.color = "y";
-        if(centerCard.color == "+r")centerCard.color = "r";
-        else if(centerCard.color == "+b")centerCard.color = "b";
-        else if(centerCard.color == "+y")centerCard.color = "y";
-        else if(centerCard.color == "+g")centerCard.color = "g";
+        if(playerCard.color == "+r" || playerCard.color == "Sr") playerCard.color = "r";
+        else if(playerCard.color == "+b" || playerCard.color == "Sb") playerCard.color = "b";
+        else if(playerCard.color == "+g" || playerCard.color == "Sg") playerCard.color = "g";
+        else if(playerCard.color == "+y" || playerCard.color == "Sy") playerCard.color = "y";
+        if(centerCard.color == "+r" || centerCard.color == "Sr")centerCard.color = "r";
+        else if(centerCard.color == "+b" || centerCard.color == "Sb")centerCard.color = "b";
+        else if(centerCard.color == "+y" || centerCard.color == "Sy")centerCard.color = "y";
+        else if(centerCard.color == "+g" || centerCard.color == "Sg")centerCard.color = "g";
         if (legal == true) {
             if (playerCard.num == centerCard.num || playerCard.color == centerCard.color) {
                 legal = true;
@@ -208,10 +256,10 @@ public:
         //if card matches centerCard
         bool legal = false;
         list<Card>::iterator it;
-        if(centerCard.color == "+r")centerCard.color = "r";
-        else if(centerCard.color == "+b")centerCard.color = "b";
-        else if(centerCard.color == "+y")centerCard.color = "y";
-        else if(centerCard.color == "+g")centerCard.color = "g";
+        if(centerCard.color == "+r" || centerCard.color == "Sr")centerCard.color = "r";
+        else if(centerCard.color == "+b" || centerCard.color == "Sb")centerCard.color = "b";
+        else if(centerCard.color == "+y" || centerCard.color == "Sy")centerCard.color = "y";
+        else if(centerCard.color == "+g" || centerCard.color == "Sg")centerCard.color = "g";
 
         for (it = this->handList.begin(); it != this->handList.end(); it++) {
             if (it->num == centerCard.num || it->color == centerCard.color||it->color == "W") {
@@ -221,10 +269,6 @@ public:
             }
         }
         return false;
-    }
-
-    void drawTwo(Card playerCard, Card centerCard){
-        isLegal(playerCard, centerCard);
     }
 
     void print() {
@@ -246,7 +290,7 @@ class cpuPlayer : public Player {
 Card convertInput(string Card) {
     //convert user input string to a Card type
     class Card test;
-    if(Card[1] == '+'){
+    if(Card[1] == '+' || Card[1] == 'S'){
         test.num = stoi(Card);
         test.color = Card.substr(1,2);
     }
@@ -330,6 +374,47 @@ int main() {
                 break;
 
                 //else assume that it's a card
+            }
+            else if (inputCard[1] == 'S'){
+                Card cardtoRemove = convertInput(inputCard);
+                bool legal = pNow.isLegal(cardtoRemove,centerCard);
+                if(legal){
+                    pNow.removeCard(cardtoRemove);
+                    if (pNow.num == 1) {
+                        p1 = pNow;
+                        p1.num = 1;
+                    }
+                    else if (pNow.num == 2) {
+                        p2 = pNow;
+                        p2.num = 2;
+                    }
+                    else if (pNow.num == 3) {
+                        p3 = pNow;
+                        p3.num = 3;
+                    }
+                    else if (pNow.num == 4) {
+                        p4 = pNow;
+                        p4.num = 4;
+                    }
+                    centerCard = cardtoRemove;
+                    nextNum = switchPlayer(numPlayers, pNow.num);
+                    if (nextNum == 1)
+                        pNow = p1;
+                    else if (nextNum == 2)
+                        pNow = p2;
+                    else if (nextNum == 3)
+                        pNow = p3;
+                    else if (nextNum == 4)
+                        pNow = p4;
+
+                    cout << "Player " << pNow.num << " is skipped" << endl;
+
+                    promptAgain = false;
+                }
+                else{
+                    cout << "ILLEGAL MOVE, DRAW OR PLAY ANOTHER CARD" << endl;
+                    promptAgain = true;
+                }
             }
             else if (inputCard[1] == '+'){
                 Card cardtoRemove = convertInput(inputCard);
