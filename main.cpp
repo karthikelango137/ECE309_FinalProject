@@ -34,6 +34,26 @@ int main() {
     humPlayer p4;
     p4.num = 4;
     p4.cpu = false;
+    cout << "Welcome to UNO!" << endl << "You may type end at any point as your card to end the game." << endl;
+    cout << "Please Enter the Number of Human Players (max 4): ";
+    int numHumPlayers;
+    cin >> numHumPlayers;
+    cout << "HUMAN PLAYERS: " << numHumPlayers<< endl;
+    if(numHumPlayers == 1){
+        humPlayer p1;
+        p1.num = 1;
+        p1.cpu = false;
+        cpuPlayer p2;
+        p2.num = 2;
+        p2.cpu = false;
+        cpuPlayer p3;
+        p3.num = 3;
+        p3.cpu = false;
+        cpuPlayer p4;
+        p4.num = 4;
+        p4.cpu = false;
+    }
+
     int nextNum = 0;
     int numPlayers = 4;
     humPlayer pNow;
@@ -41,19 +61,21 @@ int main() {
     Card lastPlayedCard;
     bool end = false;
     bool reverse = false;
-    int randNum = rand() % 80;
-    Card centerCard = fullDeck.cardDeck[randNum];
+    Card centerCard;
+    centerCard.color = "r";
+    centerCard.num = 4;
     Card cardtoPlay;
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, 15);
-    cout << "Welcome to UNO!" << endl << "You may type end at any point as your card to end the game." << endl;
+
     string inputCard;
     //begin the main while loop
     while (!end) {
         //prompts for user
+        cout << "TYPE: " << pNow.type << endl;
         bool promptAgain = true;
         while (promptAgain) {
-            cout << "Card to Play: " << centerCard.num << centerCard.color << endl;
+            cout << "Card to Play: " /*<< centerCard.num << centerCard.color << endl*/;
             if (centerCard.color == "r" || centerCard.color[1] == 'r') {
                 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
                 SetConsoleTextAttribute(hConsole, 12);
@@ -179,9 +201,9 @@ int main() {
                 }
                 promptAgain = false;
             }
-            //===========================================================================
-            //IF THE PLAYER IS A HUMAN IT WILL PROMPT THE USER FOR INPUTS
-            //===========================================================================
+                //===========================================================================
+                //IF THE PLAYER IS A HUMAN IT WILL PROMPT THE USER FOR INPUTS
+                //===========================================================================
             else {
                 if (pNow.anyLegalCard(centerCard))
                     cout << "Your Turn, Play or Pickup a Card: ";
