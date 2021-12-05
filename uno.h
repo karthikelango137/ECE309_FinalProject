@@ -24,8 +24,6 @@ public:
         num = 10;
         color = "default";
     }
-
-
 };
 
 class Deck {
@@ -155,25 +153,16 @@ public:
 class Player {
 public:
     int num;
-    int type;
-    bool cpu = false;
+    bool cpu;
     list<Card> handList;
 public:
-    /*
     virtual void deal() = 0;
     virtual void removeCard(Card inputCard) = 0;
     virtual void pickupCard() = 0;
     virtual bool isLegal(Card playerCard, Card centerCard) = 0;
     virtual bool anyLegalCard(Card centerCard) = 0;
     virtual void print() = 0;
-    virtual Card playCard(Card centerCard) = 0;*/
-    void deal();
-    void removeCard(Card inputCard);
-    void pickupCard();
-    bool isLegal(Card playerCard, Card centerCard);
-    bool anyLegalCard(Card centerCard);
-    void print();
-    Card playCard(Card centerCard);
+    virtual Card playCard(Card centerCard) = 0;//return card type????
     //virtual void playCard() {}
     //virtual void sortHand() {}//if needed, we can implement later
 
@@ -184,14 +173,14 @@ public:
     int num;
     list<Card> handList;
     humPlayer() {
+        cpu = false;
         Deck dealDeck;
         //list<Card> returnDeck;
         for (int i = 0; i < 7; i++) {
             handList.push_back(dealDeck.cardDeck[i]);
         }
-        type = 4;
     }
-    Card playCard(Card centerCard) { return centerCard; }//place card from user input
+    Card playCard(Card centerCard) override { return centerCard; }//place card from user input
     void deal() {
         Deck dealDeck;
         //list<Card> returnDeck;
@@ -338,10 +327,9 @@ class cpuPlayer : public Player { //YOU SHOULD ONLY NEED TO CALL PLAYCARD FUNCTI
 public:
     int num;
     list<Card> handList;
-    int type;
     cpuPlayer() {
+        cpu = true;
         Deck dealDeck;
-        type = 5;
         //list<Card> returnDeck;
         for (int i = 0; i < 7; i++) {
             handList.push_back(dealDeck.cardDeck[i]);

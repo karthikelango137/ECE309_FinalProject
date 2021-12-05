@@ -20,50 +20,56 @@ List of Known Issues:
 using namespace std;
 
 int main() {
+    cout << "Welcome to UNO!" << endl << "You may type end at any point as your card to end the game." << endl;
+    cout << "Do you want to 1v1 the CPU? (y or n): ";
+    string onevone;
+    cin >> onevone;
+    if(onevone == "y"){
+        cout << "ONE ON ONE" << endl;
+        humPlayer p1;
+        cpuPlayer p2;
+        srand(time(NULL));
+        Deck fullDeck;
+        p1.num = 1;
+        p2.num = 2;
+        int numPlayers = 2;
+        Card lastPlayedCard;
+        bool end = false;
+        bool reverse = false;
+        int randNum = rand() % 80;
+        Card centerCard = fullDeck.cardDeck[randNum];
+        Card cardtoPlay;
+        string inputCard;
+
+        while(!end){
+            bool promptAgain = true;
+            while (promptAgain) {
+                cout << "Card to Play: ";
+                cout << centerCard.num << centerCard.color << endl;
+            }
+        }
+    }
+    else{
+    cpuPlayer p1;
+    cpuPlayer p2;
+    cpuPlayer p3;
+    cpuPlayer p4;
+    cpuPlayer pNow;
+
     srand(time(NULL));
     Deck fullDeck;
-    humPlayer p1;
     p1.num = 1;
-    p1.cpu = false;
-    humPlayer p2;
     p2.num = 2;
-    p2.cpu = false;
-    humPlayer p3;
     p3.num = 3;
-    p3.cpu = false;
-    humPlayer p4;
     p4.num = 4;
-    p4.cpu = false;
-    cout << "Welcome to UNO!" << endl << "You may type end at any point as your card to end the game." << endl;
-    cout << "Please Enter the Number of Human Players (max 4): ";
-    int numHumPlayers;
-    cin >> numHumPlayers;
-    cout << "HUMAN PLAYERS: " << numHumPlayers<< endl;
-    if(numHumPlayers == 1){
-        humPlayer p1;
-        p1.num = 1;
-        p1.cpu = false;
-        cpuPlayer p2;
-        p2.num = 2;
-        p2.cpu = false;
-        cpuPlayer p3;
-        p3.num = 3;
-        p3.cpu = false;
-        cpuPlayer p4;
-        p4.num = 4;
-        p4.cpu = false;
-    }
-
     int nextNum = 0;
     int numPlayers = 4;
-    humPlayer pNow;
     pNow = p1;
     Card lastPlayedCard;
     bool end = false;
     bool reverse = false;
-    Card centerCard;
-    centerCard.color = "r";
-    centerCard.num = 4;
+    int randNum = rand() % 80;
+    Card centerCard = fullDeck.cardDeck[randNum];
     Card cardtoPlay;
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, 15);
@@ -72,10 +78,9 @@ int main() {
     //begin the main while loop
     while (!end) {
         //prompts for user
-        cout << "TYPE: " << pNow.type << endl;
         bool promptAgain = true;
         while (promptAgain) {
-            cout << "Card to Play: " /*<< centerCard.num << centerCard.color << endl*/;
+            cout << "Card to Play: ";
             if (centerCard.color == "r" || centerCard.color[1] == 'r') {
                 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
                 SetConsoleTextAttribute(hConsole, 12);
@@ -427,6 +432,6 @@ int main() {
 
 
     }
-
+    }
     return 0;
 }
