@@ -1,4 +1,3 @@
-#pragma once
 #ifndef ECE309_PROJECT_UNO_H
 #define ECE309_PROJECT_UNO_H
 #include <iostream>
@@ -142,12 +141,6 @@ public:
         random_shuffle(cardDeck.begin(), cardDeck.end());
     }
 
-    void print() {
-        for (int i = 0; i < cardDeck.size(); i++) {
-            cout << cardDeck[i].num << cardDeck[i].color << ' ';
-        }
-        cout << endl;
-    }//for testing purposes only
 };
 
 class Player {
@@ -344,7 +337,7 @@ public:
                 tmp.color = it->color;
                 if (isLegal(tmp, centerCard)) {  //checks to see if the car chosen is legal
                     removeCard(tmp);
-                    cout << "Card removed: " << tmp.num << tmp.color << endl;       //TESTING TEXT
+                    cout << "Played card: " << tmp.num << tmp.color << endl;       //TESTING TEXT
                     cout << endl;
                     if (tmp.color == "w") {
                         int randNum = rand() % 3;
@@ -575,6 +568,40 @@ int RSwitchPlayer(int numplayers, int pnowNum) {
     }
 
     return next;
+}
+
+void printRules(){
+    cout << "Uno is the highly popular card game played by millions around the globe. This game is played by matching and then discarding the cards in one's hand till none are left. Since its inception, there are now many versions of Uno that one can play. Here are the rules of the original or classic Uno.\n"
+            "\n"
+            "Setup: The game is for 2-10 players, ages 7 and over. Every player starts with seven cards, and they are dealt face down. The rest of the cards are placed in a Draw Pile face down. Next to the pile a space should be designated for a Discard Pile. The top card should be placed in the Discard Pile, and the game begins!\n"
+            "\n"
+            "Game Play: The first player is normally the player to the left of the dealer (you can also choose the youngest player) and gameplay usually follows a clockwise direction. Every player views his/her cards and tries to match the card in the Discard Pile.\n"
+            "\n"
+            "You have to match either by the number, color, or the symbol/Action. For instance, if the Discard Pile has a red card that is an 8 you have to place either a red card or a card with an 8 on it. You can also play a Wild card (which can alter current color in play).\n"
+            "\n"
+            "If the player has no matches or they choose not to play any of their cards even though they might have a match, they must draw a card from the Draw pile. If that card can be played, play it. Otherwise, keep the card, and the game moves on to the next person in turn. You can also play a Wild card, or a Wild Draw Four card on your turn.\n"
+            "\n"
+            "Note: If the first card turned up from the Draw Pile (to form the Discard Pile) is an Action card, the Action from that card applies and must be carried out by the first player (as stated, it is usually the player to the dealer's left). The exceptions are if a Wild or Wild Draw Four card is turned up.\n"
+            "\n"
+            "If it is a Wild card, Mattel has now stated that the first player to start (usually the one on the dealer's left), can choose whatever color to begin play. If the first card is a Wild Draw Four card - Return it to the Draw Pile, shuffle the deck, and turn over a new card. At any time during the game, if the Draw Pile becomes depleted and no one has yet won the round, take the Discard Pile, shuffle it, and turn it over to regenerate a new Draw Pile.\n"
+            "\n"
+            "Take note that you can only put down one card at a time; you cannot stack two or more cards together on the same turn. For example, you cannot put down a Draw Two on top of another Draw Two, or Wild Draw Four during the same turn, or put down two Wild Draw Four cards together.\n"
+            "\n"
+            "The game continues until a player has one card left. \n"
+            "\n"
+            "Once a player has no cards remaining, the game round is over, points are scored, and the game begins over again. Normally, everyone tries to be the first one to achieve 500 points, but you can also choose whatever points number to win the game, as long as everyone agrees to it.\n"
+            "\n"
+            "Action Cards: Besides the number cards, there are several other cards that help mix up the game. These are called Action or Symbol cards.\n"
+            "\n"
+            "uno action cards\n"
+            "\n"
+            "Reverse - If going clockwise, switch to counterclockwise or vice versa. It can only be played on a card that matches by color, or on another Reverse card. If turned up at the beginning of play, the dealer goes first, and the player to the dealer's right is next (normally it would be the player to the dealer's left).\n"
+            "Skip - When a player places this card, the next player has to skip their turn. It can only be played on a card that matches by color, or on another Skip card. If turned up at the beginning of play, the first player (to the dealer's left) loses his/her turn. The next player to that player's right starts the game instead.\n"
+            "Draw Two - When a person places this card, the next player will have to pick up two cards and forfeit his/her turn. It can only be played on a card that matches by color, or on another Draw Two.y\n"
+            "Wild - This card represents all four colors, and can be placed on any card. The player has to state which color it will represent for the next player. It can be played regardless of whether another card is available. If turned up at the beginning of play, the first player chooses what color to continue play.\n"
+            "Wild Draw Four - This acts just like the wild card except that the next player also has to draw four cards as well as forfeit his/her turn. \n"
+             << endl;
+    return;
 }
 
 #endif //ECE309_PROJECT_UNO_H
