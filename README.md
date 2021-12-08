@@ -26,8 +26,6 @@ Step 4 − Run it! Now you can run the program using −
 
 $ ./myprogram
 
-INTERESTING FEATURES: Any playable cards: Checks the current player's hand, and returns if there is a playable card or not. If not, we prompt the player to pick up a           card.
-  
+INTERESTING FEATURES: Any playable cards: Checks the current player's hand, and returns if there is a playable card or not. If not, we prompt the player to pick up a                                     card.
                       Console Colors: For every card displayed, we changed the console output to match the color of the card
-  
                       Rules: Display our game rules and how to play if user wants. 
